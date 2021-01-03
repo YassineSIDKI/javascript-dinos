@@ -61,16 +61,15 @@ DinoConstructor.prototype = protoDino;
 function createDinoArray(units) {
     const dinos = rawDinoData();
     const dinoArray = [];
-    console.log(dinos)
     
     for (var i = 0, len = Object.keys(dinos.Dinos).length; i < len; i++) {
-        console.log("element= " + dinos.Dinos[i])
+        
         dinoArray.push(new DinoConstructor(dinos.Dinos[i], units));
     }
 
 
     dinoArray.splice(4, 0, 'human placeholder');
-    console.log(dinoArray)
+    
     return dinoArray;
 }
 
@@ -159,8 +158,6 @@ function updateUI(dinoArray, humanData) {
     
     const fragment = document.createDocumentFragment();
 
-    console.log(dinoArray)
-    
     for (let i = 0; i < Object.keys(dinoArray).length; i++) {
         
         let gridSquare = i === 4 ? createHumanElement(humanData) : createDinoElement(dinoArray[i], humanData);
