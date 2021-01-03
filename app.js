@@ -1,3 +1,7 @@
+/**
+ * @description The raw dinosaur data, put in function to avoid global variable
+ * @returns An array of dinosaur objects (plus a pigeon)
+ */
 function rawDinoData() {
   const url =
     "https://raw.githubusercontent.com/YassineSIDKI/JavaScript-dinos/main/dino.json";
@@ -6,6 +10,12 @@ function rawDinoData() {
   return dinos;
 }
 
+/**
+ * @description Represents a dinosaur object
+ * @constructor
+ * @param {Object} dinoData A single dinosaur object containing facts
+ * @param {string} units 'metric' or 'imperial' for height and weight
+ */
 function DinoConstructor(dinoData, units) {
   this.species = dinoData.species;
   this.diet = dinoData.diet;
@@ -64,6 +74,11 @@ const protoDino = {
 
 DinoConstructor.prototype = protoDino;
 
+/**
+ * @description Creates the dinosaur object array by calling constructor, inserts a human placeholder for proper iteration later
+ * @param {string} units 'metric' or 'imperial' for height and weight
+ * @returns {Array} Array of dinosaur objects from constructor
+ */
 function createDinoArray(units) {
   const dinos = rawDinoData();
   let dinoArray = [];
@@ -77,6 +92,12 @@ function createDinoArray(units) {
   return dinoArray;
 }
 
+/**
+ * @description Creates a grid element for a dinosaur object
+ * @param {Object} dinoData An object representing a single dinosaur
+ * @param {Object} humanData Data grabbed from the user's input form
+ * @returns {Element} An element to be added to the grid in the UI
+ */
 function createDinoElement(dinoData, humanData) {
   let fact;
   const randomNumber =
@@ -116,6 +137,10 @@ function createDinoElement(dinoData, humanData) {
   return newDiv;
 }
 
+/**
+ * @description Get the user's data from the contact form
+ * @returns An object containing the user's data
+ */
 function getHumanData() {
   let height, weight, units;
 
@@ -142,6 +167,11 @@ function getHumanData() {
   return humanData;
 }
 
+/**
+ * @description Creates a grid element for the human object
+ * @param {Object} humanData Data grabbed from the user's input form
+ * @returns {Element} An element to be added to the grid in the UI
+ */
 function createHumanElement(humanData) {
   const newDiv = document.createElement("div");
   newDiv.className = "grid-item";
@@ -150,6 +180,9 @@ function createHumanElement(humanData) {
   return newDiv;
 }
 
+/**
+ * @description Resets the UI elements if the user wants to try again
+ */
 function repeat() {
   document.getElementById("error").innerHTML = "";
   document.getElementById("grid").innerHTML = "";
@@ -157,6 +190,11 @@ function repeat() {
   document.querySelector("form").style.display = "block";
 }
 
+/**
+ * @description Creates the grid for the UI result
+ * @param {Array} dinoArray Array of dinosaur objects
+ * @param {Object} humanData The user's data object
+ */
 function updateUI(dinoArray, humanData) {
   document.querySelector("form").style.display = "none";
 
@@ -175,6 +213,10 @@ function updateUI(dinoArray, humanData) {
   document.getElementById("repeat-btn").style.display = "block";
 }
 
+/**
+ * @description Called when the user clicks the submit button, main function of the program which calls the other parts of the sequence
+ * @param {event} e The click event on the form's submit button
+ */
 function clicked(e) {
   e.preventDefault();
 
@@ -197,6 +239,9 @@ function clicked(e) {
   updateUI(dinoArray, humanData);
 }
 
+/**
+ * @description Called when the user changes units in the form, sets or hides the metric and imperial height and weight input elements
+ */
 function changeUnits() {
   if (document.getElementById("metric").checked) {
     document.getElementById("metric-form").style.display = "block";
@@ -207,11 +252,18 @@ function changeUnits() {
   }
 }
 
+/**
+ * @description IIFE to attach the event listeners on the buttons
+ */
 (function () {
   document.getElementById("btn").addEventListener("click", clicked);
   document.getElementById("repeat-btn").addEventListener("click", repeat);
 })();
 
+/**
+ * description Called in the begining to load the dinos json file
+ * @param {string} file The url of the json file containing dinos objects
+ */
 function readTextFile(file) {
   let rawFile = new XMLHttpRequest();
   let allText = "";
